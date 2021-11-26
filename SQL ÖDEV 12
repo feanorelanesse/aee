@@ -1,0 +1,27 @@
+SELECT COUNT(*) as NUMBEROFMOVİES FROM film
+WHERE length > ANY 
+(
+SELECT ROUND(AVG(length)) FROM film
+);
+
+
+SELECT COUNT(*) FROM film
+WHERE rental_rate = ANY 
+(
+SELECT MAX(rental_rate) FROM film
+);
+
+SELECT DISTINCT title FROM film
+WHERE rental_rate = any 
+(
+SELECT MIN(rental_rate) FROM film)
+AND replacement_cost = any (SELECT MIN(replacement_cost) FROM film)
+
+SELECT first_name, last_name
+FROM customer
+WHERE customer_id = any
+(
+SELECT customer_id
+FROM payment
+WHERE amount = ( SELECT MAX(amount) from payment )
+)
